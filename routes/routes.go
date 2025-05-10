@@ -12,14 +12,16 @@ func SetupRouter() *gin.Engine {
 	//initialize gin
 	router := gin.Default()
 
-	// route register
+	// route auth
 	router.POST("/api/register", controllers.Register)
-
-	// route login
 	router.POST("/api/login", controllers.Login)
 
-	// route users
+	// route crud users
 	router.GET("/api/users", middlewares.AuthMiddleware(), controllers.FindUsers)
+	router.POST("/api/users", middlewares.AuthMiddleware(), controllers.CreateUser)
+	router.GET("/api/users/:id", middlewares.AuthMiddleware(), controllers.FindUserById)
+	router.PUT("/api/users/:id", middlewares.AuthMiddleware(), controllers.UpdateUser)
+	router.DELETE("/api/users/:id", middlewares.AuthMiddleware(), controllers.DeleteUser)
 
 	return router
 }
